@@ -13,8 +13,11 @@ class ClientesModel
   {
   }
 
-  public function save()
+  public function save($nombre,$correo)
   {
+    $sentencia = Conexion::connect()->query("INSERT INTO clientes (nombre, correo) VALUES (?, ?);");
+    $resultado = $sentencia->execute([$nombre, $correo]);
+    return $resultado;
   }
 
   public function update()
