@@ -13,10 +13,17 @@ class ClientesModel
   {
   }
 
-  public function save($nombre,$correo)
+  public function getDni($dni)
   {
-    $sentencia = Conexion::connect()->query("INSERT INTO clientes (nombre, correo) VALUES (?, ?);");
-    $resultado = $sentencia->execute([$nombre, $correo]);
+    $query = Conexion::connect()->query("SELECT * FROM clientes where dni = \"$dni\" ");
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function save($nombre,$correo,$apellidos,$dni,$direccion,$telefono)
+  {
+    $sentencia = Conexion::connect()->prepare("INSERT INTO clientes (nombre, correo,apellidos,telefono,dni,direccion) VALUES (?,?,?,?,?, ?);");
+    $resultado = $sentencia->execute([$nombre, $correo,$apellidos,$telefono,$dni,$direccion]);
     return $resultado;
   }
 
